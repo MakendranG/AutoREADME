@@ -1,0 +1,31 @@
+name: Generate README
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_url:
+        description: 'Enter the GitHub repository URL'
+        required: true
+        default: 'https://github.com/octocat/Hello-World'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install requests jinja2
+
+      - name: Run README generator
+        run: python autogenerate_readme.py
+        env:
+          REPO_URL: ${{ github.event.inputs.repo_url }}
