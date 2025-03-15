@@ -1,7 +1,5 @@
-
-import requests
 import os
-
+import requests
 from jinja2 import Template
 
 def fetch_repo_details(repo_url):
@@ -86,8 +84,11 @@ if __name__ == "__main__":
     try:
         repo_data = fetch_repo_details(repo_url)
         readme_content = generate_readme(repo_data)
-        with open("README.md", "w") as file:
+        # Ensure the folder exists
+        os.makedirs("generated_readme", exist_ok=True)
+        # Write the generated README to the specified folder
+        with open("generated_readme/README.md", "w") as file:
             file.write(readme_content)
-        print("README.md generated successfully!")
+        print("README.md generated successfully in the 'generated_readme' folder!")
     except Exception as e:
         print("Error:", e)
